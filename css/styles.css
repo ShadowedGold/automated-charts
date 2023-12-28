@@ -1,7 +1,7 @@
 html, body {
   margin: 0;
 }
-body, .section, .label, .buttonHolder, .button {
+body, .section, .label, .chaosFactorHolder, .buttonHolder, .button {
   display: flex;
 }
 body, .section {
@@ -25,11 +25,13 @@ body {
   padding: 5px;
   justify-content: center;
 }
-.results, .label, .button {
+.tracked, .results, .label, .button {
   font-family: sans-serif;
 }
-
-.results, .button {
+.results, .label, .button {
+  font-size: 1em;
+}
+.chaosFactor, .results, .button {
   align-items: center;
   text-align: center;
 }
@@ -41,7 +43,7 @@ body {
 .label, .button {
   font-weight: bold;
 }
-.label {
+.tracked, .label {
   color: white;
   text-transform: uppercase;
 }
@@ -55,4 +57,25 @@ body {
   flex: 1 0 calc(calc(100% - 10px)/3);
   max-width: calc(calc(100% - 10px)/3);
   background-color: white;
+}
+.chaosFactor {
+}
+.chaosFactor .label {
+  width: 100%;
+  justify-content: center;
+}
+.chaosFactorHolder {
+  padding-top: 5px;
+  border-top: 2px solid white;
+  justify-content: baseline;
+}
+.tracked {
+  width: 2em;
+  font-size: 2em;
+  text-align: center;
+}
+.chaosFactor .button {
+  flex: 0;
+  height: 2em;
+  aspect-ratio: 1 / 1;
 }
