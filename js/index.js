@@ -1,3 +1,5 @@
+var chaosFactor = 9;
+
 function pickFromArray(table) {
   let dSize = table[table.length - 1].chance;
   let randomDSize = Math.floor(Math.random() * dSize + 1);
@@ -15,7 +17,34 @@ function pickFromObject(table) {
   return [randomD100, table[randomD100]];
 }
 
-function createButton(table, parentEl) {
+function pickFromFateChart(odds) {
+  let randomD100 = Math.floor(Math.random() * 100 + 1);
+
+  for (let i = 0; i < 3; i++) {
+    switch (i) {
+      case 0:
+        if (fateChart[chaosFactor][odds][i] >= randomD100)
+          return [randomD100, "Exceptional Yes"];
+        break;
+      case 1:
+        if (fateChart[chaosFactor][odds][i] >= randomD100)
+          return [randomD100, "Yes"];
+        break;
+      case 2:
+        if (fateChart[chaosFactor][odds][i] > randomD100) {
+          return [randomD100, "No"];
+        } else {
+          return [
+            randomD100,
+            (fateChart[chaosFactor][odds][i] == 101) ? "No" : "Exceptional No"
+          ];
+        }
+        break;
+    }
+  }
+}
+
+function createButton(table, parentEl, section) {
   let button = document.createElement('div');
   button.classList.add("button");
 
@@ -26,12 +55,21 @@ function createButton(table, parentEl) {
                      .replace(/^./, (str) => { return str.toUpperCase(); });
 
   button.onclick = () => {
-    if (Array.isArray(window[table])) {
-      console.log(button.innerText + ": " +
-                  pickFromArray(window[table]));
+    if (section == "fate chart") {
+      let result = pickFromFateChart(table);
+      results.innerHTML = "<b>" + section.toUpperCase() + " - " +
+                          button.innerText + "</b>\n" +
+                          result[1] + " (" + result[0] + ")";
+    } else if (Array.isArray(window[table])) {
+      let result = pickFromArray(window[table]);
+      results.innerHTML = "<b>" + section.toUpperCase() + " - " +
+                          button.innerText + "</b>\n" +
+                          result[1] + " (" + result[0] + ")";
     } else {
-      console.log(button.innerText + ": " +
-                  pickFromObject(window[table]));
+      let result = pickFromObject(window[table]);
+      results.innerHTML = "<b>" + section.toUpperCase() + " - " +
+                          button.innerText + "</b>\n" +
+                          result[1] + " (" + result[0] + ")";
     }
   };
 
@@ -51,7 +89,7 @@ function createSection(name, array) {
   buttonHolder.classList.add('buttonHolder');
 
   array.forEach((table) => {
-    createButton(table, buttonHolder);
+    createButton(table, buttonHolder, name);
   });
 
   section.appendChild(buttonHolder);
@@ -61,10 +99,17 @@ function createSection(name, array) {
 
 /* --- Setting Up Elements ------------------------------- */
 
-createSection("general", ["table_randomEventFocus", "table_sceneAdjustment"]);
+let results = document.createElement('div');
+results.classList.add("section", "results");
+document.body.appendChild(results);
+
+createSection("fate chart", odds);
+
+createSection("general", ["table_randomEventFocus",
+                          "table_sceneAdjustment"]);
 
 createSection("actions", table_meaning_actions);
 
 createSection("descriptions", table_meaning_descriptions);
 
-createSection("elements", table_meaning_elements);
+createSection("meaning elements", table_meaning_elements);
