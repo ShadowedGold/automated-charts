@@ -36,9 +36,9 @@ body {
   text-align: center;
 }
 .results {
-  height: calc(2em + 20px);
-  border: 2px solid crimson;
-  color: crimson;
+  height: calc(2em + 32px);
+  border: 6px double white;
+  color: white;
 }
 .label, .button {
   font-weight: bold;
@@ -57,8 +57,14 @@ body {
   flex: 1 0 calc(calc(100% - 10px)/3);
   max-width: calc(calc(100% - 10px)/3);
   background-color: white;
+  user-select: none;
+  cursor: pointer;
 }
-.chaosFactor {
+.button:hover {
+  background-color: gold;
+}
+.button:active {
+  background-color: goldenrod;
 }
 .chaosFactor .label {
   width: 100%;
@@ -78,4 +84,13 @@ body {
   flex: 0;
   height: 2em;
   aspect-ratio: 1 / 1;
+}
+p {
+  margin: 0;
+}
+.yes {
+  color: chartreuse;
+}
+.no {
+  color: crimson;
 }

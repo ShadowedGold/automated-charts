@@ -20,23 +20,30 @@ function pickFromObject(table) {
 function pickFromFateChart(odds) {
   let randomD100 = Math.floor(Math.random() * 100 + 1);
 
+  let answers = [
+    '<span class="yes">Exceptional Yes</span>',
+    '<span class="yes">Yes</span>',
+    '<span class="no">No</span>',
+    '<span class="no">Exceptional No</span>',
+  ]
+
   for (let i = 0; i < 3; i++) {
     switch (i) {
       case 0:
         if (fateChart[chaosFactor][odds][i] >= randomD100)
-          return [randomD100, "Exceptional Yes"];
+          return [randomD100, answers[0]];
         break;
       case 1:
         if (fateChart[chaosFactor][odds][i] >= randomD100)
-          return [randomD100, "Yes"];
+          return [randomD100, answers[1]];
         break;
       case 2:
         if (fateChart[chaosFactor][odds][i] > randomD100) {
-          return [randomD100, "No"];
+          return [randomD100, answers[2]];
         } else {
           return [
             randomD100,
-            (fateChart[chaosFactor][odds][i] == 101) ? "No" : "Exceptional No"
+            (fateChart[chaosFactor][odds][i] == 101) ? answers[2] : answers[3]
           ];
         }
         break;
@@ -64,19 +71,19 @@ function createButton(table, parentEl, section) {
   button.onclick = () => {
     if (section == "fate chart") {
       let result = pickFromFateChart(table);
-      results.innerHTML = "<b>" + section.toUpperCase() + " - " +
-                          button.innerText + "</b>\n" +
-                          result[1] + " (" + result[0] + ")";
+      results.innerHTML = "<p><b>" + section.toUpperCase() + " - " +
+                          button.innerText + "</b></p>" +
+                          "<p>" + result[1] + " (" + result[0] + ")</p>";
     } else if (Array.isArray(window[table])) {
       let result = pickFromArray(window[table]);
-      results.innerHTML = "<b>" + section.toUpperCase() + " - " +
-                          button.innerText + "</b>\n" +
-                          result[1] + " (" + result[0] + ")";
+      results.innerHTML = "<p><b>" + section.toUpperCase() + " - " +
+                          button.innerText + "</b></p>" +
+                          "<p>" + result[1] + " (" + result[0] + ")</p>";
     } else {
       let result = pickFromObject(window[table]);
-      results.innerHTML = "<b>" + section.toUpperCase() + " - " +
-                          button.innerText + "</b>\n" +
-                          result[1] + " (" + result[0] + ")";
+      results.innerHTML = "<p><b>" + section.toUpperCase() + " - " +
+                          button.innerText + "</b></p>" +
+                          "<p>" + result[1] + " (" + result[0] + ")</p>";
     }
   };
 
