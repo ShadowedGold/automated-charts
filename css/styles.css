@@ -71,12 +71,13 @@ body {
   justify-content: center;
 }
 .chaosFactorHolder {
-  padding-top: 5px;
+  padding-top: 4px;
   border-top: 2px solid white;
-  justify-content: baseline;
+  justify-content: center;
 }
 .tracked {
   width: 2em;
+  height: 1em;
   font-size: 2em;
   text-align: center;
 }
@@ -88,9 +89,12 @@ body {
 p {
   margin: 0;
 }
+::selection {
+  background-color: goldenrod;
+}
 .yes {
-  color: chartreuse;
+  color: lime;
 }
 .no {
-  color: crimson;
+  color: red;
 }

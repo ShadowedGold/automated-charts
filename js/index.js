@@ -69,22 +69,17 @@ function createButton(table, parentEl, section) {
                      .replace(/^./, (str) => { return str.toUpperCase(); });
 
   button.onclick = () => {
+    let result = [];
     if (section == "fate chart") {
-      let result = pickFromFateChart(table);
-      results.innerHTML = "<p><b>" + section.toUpperCase() + " - " +
-                          button.innerText + "</b></p>" +
-                          "<p>" + result[1] + " (" + result[0] + ")</p>";
+      result = pickFromFateChart(table);
     } else if (Array.isArray(window[table])) {
-      let result = pickFromArray(window[table]);
-      results.innerHTML = "<p><b>" + section.toUpperCase() + " - " +
-                          button.innerText + "</b></p>" +
-                          "<p>" + result[1] + " (" + result[0] + ")</p>";
+      result = pickFromArray(window[table]);
     } else {
-      let result = pickFromObject(window[table]);
-      results.innerHTML = "<p><b>" + section.toUpperCase() + " - " +
-                          button.innerText + "</b></p>" +
-                          "<p>" + result[1] + " (" + result[0] + ")</p>";
+      result = pickFromObject(window[table]);
     }
+    results.innerHTML = "<p><b>" + section.toUpperCase() + " - " +
+                        button.innerText + "</b></p>" +
+                        "<p>" + result[1] + " (" + result[0] + ")</p>";
   };
 
   parentEl.appendChild(button);
