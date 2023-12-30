@@ -85,22 +85,41 @@ function createButton(table, parentEl, section) {
   parentEl.appendChild(button);
 }
 
-function createSection(name, array) {
+function createSection(name, array, parentEl) {
   let section = document.createElement('div');
   section.classList.add('section');
 
-  createLabel(name, section);
+  let sectionHeader = document.createElement('div');
+  sectionHeader.classList.add('sectionHeader', 'collapsed');
+
+  createLabel(name, sectionHeader);
+
+  let collapseButton = document.createElement('div');
+  collapseButton.classList.add('collapseButton');
+  collapseButton.innerText = "▲";
 
   let buttonHolder = document.createElement('div');
-  buttonHolder.classList.add('buttonHolder');
+  buttonHolder.classList.add('buttonHolder', 'hidden');
 
   array.forEach((table) => {
     createButton(table, buttonHolder, name);
   });
 
+  sectionHeader.onclick = () => {
+    if (buttonHolder.classList.contains('hidden')) {
+      collapseButton.innerText = "▼";
+    } else {
+      collapseButton.innerText = "▲";
+    }
+    sectionHeader.classList.toggle('collapsed');
+    buttonHolder.classList.toggle('hidden');
+  };
+  sectionHeader.appendChild(collapseButton);
+
+  section.appendChild(sectionHeader);
   section.appendChild(buttonHolder);
 
-  document.body.appendChild(section);
+  parentEl.appendChild(section);
 }
 
 /* --- Chaos Factor ------------------------------------- */
@@ -153,13 +172,18 @@ document.body.appendChild(results);
 
 /* --- Buttons ------------------------------------------ */
 
-createSection("fate chart", odds);
+let dropdownHolder = document.createElement('div');
+dropdownHolder.classList.add("dropdownHolder");
+
+createSection("fate chart", odds, dropdownHolder);
 
 createSection("general", ["table_randomEventFocus",
-                          "table_sceneAdjustment"]);
+                          "table_sceneAdjustment"], dropdownHolder);
 
-createSection("actions", table_meaning_actions);
+createSection("actions", table_meaning_actions, dropdownHolder);
 
-createSection("descriptions", table_meaning_descriptions);
+createSection("descriptions", table_meaning_descriptions, dropdownHolder);
 
-createSection("meaning elements", table_meaning_elements);
+createSection("meaning elements", table_meaning_elements, dropdownHolder);
+
+document.body.appendChild(dropdownHolder);
